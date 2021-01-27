@@ -7,5 +7,18 @@ pipeline{
 
             }
         }
+
+        stage('Setup') {
+            steps {
+                sh 'pip install -r requirments.txt'
+            }
+        }
+
+        stage('Unit testin') {
+            steps {
+                sh 'python -m unittest discover'
+            }
+
+        }
     }
 }
