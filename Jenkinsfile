@@ -27,6 +27,18 @@ pipeline{
 
         }
 
+        stage('SonarQube analysis') {
+            def scannerHome = tool 'SonarScanner 4.0';
+            withSonarQubeEnv('SonarQube') {
+              sh "${scannerHome}/bin/sonar-scanner"
+            }
+         }
+      }
+
+
+
+        /*
+
         stage('Docker build image ') {
             steps {
                 script {
@@ -49,6 +61,6 @@ pipeline{
             steps {
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
-        }
+        }*/
     }
 }
