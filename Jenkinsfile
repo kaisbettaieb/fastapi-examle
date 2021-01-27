@@ -1,6 +1,11 @@
 pipeline{
+    environment {
+        registry = 'kaisbettaieb/fastapi-example'
+        registryCredential = 'dockerhub-credentials'
+        dockerImage = ''
+    }
     agent any
-    app any
+
     stages {
         stage('Clone github repo'){
             steps {
@@ -22,18 +27,27 @@ pipeline{
 
         }
 
-        stage('Docker build') {
+        stage('Docker build image ') {
             steps {
-                app = docker.build("kaisbettaieb/fastapi-example")
+                script {
+                    dockerImage = docker.build registry + ':$BUILD_NUMBER'
+                }
             }
         }
 
         stage('Docker push') {
             steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                       app.push("${env.BUILD_NUMBER}")
-                       app.push("latest")
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                           dockerImage.push()
+                    }
                 }
+            }
+        }
+
+        stage('Cleaning local image') {
+            steps {
+                sh 'docker rmi $registry:$BUILD_NUMBER'
             }
         }
     }
