@@ -10,11 +10,11 @@ pipeline{
 
         stage('Setup') {
             steps {
-                sh 'pip install -r requirments.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Unit testin') {
+        stage('Unit testing') {
             steps {
                 sh 'python -m unittest discover'
             }
