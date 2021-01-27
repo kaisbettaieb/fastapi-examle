@@ -1,9 +1,9 @@
-node {
-    checkout scm
+pipeline{
+    stage('Clone github repo'){
+        steps {
+            git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle'
 
-    docker.withRegistry('registry.hub.docker.com', 'dockerhub-credentials'){
-        def customImage = docer.build("fastapi-example:app")
-        customImage.push()
+        }
     }
 
 }
