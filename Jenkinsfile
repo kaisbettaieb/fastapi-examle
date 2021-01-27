@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    def app
+    app any
     stages {
         stage('Clone github repo'){
             steps {
