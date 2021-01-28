@@ -4,6 +4,7 @@ pipeline{
         registryCredential = 'dockerhub-credentials'
         dockerImage = ''
         scannerHome = tool 'SonarQube scanner'
+        sonarToken = credentials('credentials-sonar')
     }
     agent any
 
@@ -31,7 +32,7 @@ pipeline{
         stage('SonarQube analysis') {
             steps {
              withSonarQubeEnv('SonarQube') {
-                  bat "${scannerHome}/bin/sonar-scanner"
+                  bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.login=$sonarToken"
              }
 
             }
