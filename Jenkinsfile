@@ -3,7 +3,7 @@ pipeline{
         registry = 'kaisbettaieb/fastapi-example'
         registryCredential = 'dockerhub-credentials'
         dockerImage = ''
-        sonarqubeCredential = 'credentials-sonar'
+        scannerHome = tool 'sonar_scanner'
     }
     agent any
 
@@ -31,7 +31,7 @@ pipeline{
         stage('SonarQube analysis') {
             steps {
             withCredentials([string(credentialsId: 'credentials-sonar', variable: 'token')]) {
-                    sh 'sonar-scanner -Dsonar.login=$token'
+                    sh '${scannerHome}/bin/sonar-scanner sonar-scanner -Dsonar.login=$token'
                 }
             }
 
