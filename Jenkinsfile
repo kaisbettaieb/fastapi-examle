@@ -64,7 +64,7 @@ pipeline{
             }
         }
 
-         stage ('Upload packages') {
+         /*stage ('Upload packages') {
             steps {
                 rtUpload (
                     serverId: "ARTIFACTORY_SERVER",
@@ -86,13 +86,13 @@ pipeline{
                     serverId: "ARTIFACTORY_SERVER"
                 )
             }
-        }
+        }*/
 
     }
 
 
 
-        /*
+
 
         stage('Docker build image ') {
             steps {
@@ -116,6 +116,6 @@ pipeline{
             steps {
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
-        }*/
+        }
 
 }
