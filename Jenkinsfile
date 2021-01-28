@@ -32,7 +32,7 @@ pipeline{
         stage('SonarQube analysis') {
             steps {
                  withSonarQubeEnv('SonarQube') {
-                      bat "${scannerHome}/bin/sonar-scanner"
+                      bat "${scannerHome}\\sonar-scanner.bat -Dsonar.login=$sonarToken"
                  }
             }
 
