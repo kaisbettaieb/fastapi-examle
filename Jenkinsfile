@@ -3,7 +3,7 @@ pipeline{
         registry = 'kaisbettaieb/fastapi-example'
         registryCredential = 'dockerhub-credentials'
         dockerImage = ''
-        scannerHome = tool 'sonar_scanner'
+        scannerHome = tool 'SonarQube scanner'
     }
     agent any
 
