@@ -45,6 +45,49 @@ pipeline{
                 }
             }
         }
+
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "ARTIFACTORY_SERVER",
+                    url: "https://kaisbettaieb.jfrog.io/artifactory",
+                    credentialsId: "artifactory-credentials"
+                )
+            }
+        }
+
+        stage ('Build python package') {
+            steps {
+                sh '''
+                    python setup.py sdist bdist_wheel
+                '''
+            }
+        }
+
+         stage ('Upload packages') {
+            steps {
+                rtUpload (
+                    serverId: "ARTIFACTORY_SERVER",
+                    spec: '''{
+                        "files": [
+                            {
+                                "pattern": "dist/",
+                                "target": "artifactory-python-dev-local/"
+                            }
+                        ]
+                    }'''
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
+
     }
 
 
