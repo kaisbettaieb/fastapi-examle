@@ -64,6 +64,32 @@ pipeline{
             }
         }
 
+        stage('Docker build image ') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage('Docker push') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                           dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Cleaning local image') {
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+    }
+}
+
          /*stage ('Upload packages') {
             steps {
                 rtUpload (
@@ -88,34 +114,4 @@ pipeline{
             }
         }*/
 
-    }
 
-
-
-
-
-        stage('Docker build image ') {
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
-            }
-        }
-
-        stage('Docker push') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                           dockerImage.push()
-                    }
-                }
-            }
-        }
-
-        stage('Cleaning local image') {
-            steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }
-
-}
