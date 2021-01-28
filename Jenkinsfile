@@ -30,9 +30,10 @@ pipeline{
 
         stage('SonarQube analysis') {
             steps {
-            withCredentials([string(credentialsId: 'credentials-sonar', variable: 'token')]) {
-                    sh '${scannerHome}/bin/sonar-scanner sonar-scanner -Dsonar.login=$token'
-                }
+             withSonarQubeEnv('SonarQube') {
+                  bat "${scannerHome}/bin/sonar-scanner"
+             }
+
             }
 
         }
