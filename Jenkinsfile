@@ -64,7 +64,31 @@ pipeline{
             }
         }
 
-        stage('Docker build image ') {
+        stage ('Upload packages') {
+            steps {
+                rtUpload (
+                    serverId: "ARTIFACTORY_SERVER",
+                    spec: '''{
+                        "files": [
+                            {
+                                "pattern": "dist/",
+                                "target": "artifactory-python-dev-local/"
+                            }
+                        ]
+                    }'''
+                )
+            }
+        }
+
+         stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
+
+        /*stage('Docker build image ') {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -87,31 +111,8 @@ pipeline{
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
         }
+        */
     }
 }
-
-         /*stage ('Upload packages') {
-            steps {
-                rtUpload (
-                    serverId: "ARTIFACTORY_SERVER",
-                    spec: '''{
-                        "files": [
-                            {
-                                "pattern": "dist/",
-                                "target": "artifactory-python-dev-local/"
-                            }
-                        ]
-                    }'''
-                )
-            }
-        }
-
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "ARTIFACTORY_SERVER"
-                )
-            }
-        }*/
 
 
