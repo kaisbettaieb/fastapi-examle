@@ -88,7 +88,7 @@ pipeline{
             }
         }
 
-        /*stage('Docker build image ') {
+        stage('Docker build image ') {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -111,7 +111,7 @@ pipeline{
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
         }
-        */
+        
     }
 }
 
