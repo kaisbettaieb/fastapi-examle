@@ -10,6 +10,10 @@ COPY requirements.txt /usr/src/fastapi/
 
 RUN pip install -r requirements.txt
 
-COPY fastapi_example run.sh /usr/src/fastapi/
+RUN mkdir -p fastapi_example
+
+COPY fastapi_example/ /usr/src/fastapi/fastapi_example
+
+COPY run.sh /usr/src/fastapi/
 
 CMD sh run.sh
