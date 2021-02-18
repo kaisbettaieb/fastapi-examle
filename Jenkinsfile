@@ -18,13 +18,17 @@ pipeline{
 
         stage('Setup') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Unit testing') {
             steps {
-                sh 'python -m unittest discover'
+                sh '''
+                    python -m unittest discover
+                '''
             }
 
         }
