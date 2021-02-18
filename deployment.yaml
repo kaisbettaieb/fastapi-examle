@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-example-deployment
+  labels:
+    app: fastapi-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-example
+  template:
+    metadata:
+      labels:
+        app: fastapi-example
+    spec:
+      containers:
+      - name: fastapi-example
+        image: kaisbettaieb/fastapi-example:51
+        ports:
+        - containerPort: 8000

@@ -88,7 +88,27 @@ pipeline{
             }
         }
 
-        stage('Docker build image ') {
+        stage ('Kuberenetes deployment'){
+            steps {
+
+                sh  '''
+                    kubectl apply -f deployment.yaml
+                '''
+            }
+
+        }
+
+        stage ('Kubernetes service'){
+            steps {
+                sh '''
+                    kubectl apply -f service.yaml
+                '''
+
+            }
+
+        }
+
+        /*stage('Docker build image ') {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -110,7 +130,7 @@ pipeline{
             steps {
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
-        }
+        }*/
         
     }
 }

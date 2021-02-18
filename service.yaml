@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-example-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: fastapi-example
+  ports:
+  - port: 8000
+    targetPort: 8000
