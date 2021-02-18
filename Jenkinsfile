@@ -18,17 +18,13 @@ pipeline{
 
         stage('Setup') {
             steps {
-                sh '''
-                    pip install -r requirements.txt
-                '''
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Unit testing') {
             steps {
-                sh '''
-                    python -m unittest discover
-                '''
+                sh 'python -m unittest discover'
             }
 
         }
@@ -95,18 +91,16 @@ pipeline{
         stage ('Kuberenetes deployment'){
             steps {
 
-                sh  '''
-                    kubectl apply -f deployment.yaml
-                '''
+                sh  'kubectl apply -f deployment.yaml'
+            
             }
 
         }
 
         stage ('Kubernetes service'){
             steps {
-                sh '''
-                    kubectl apply -f service.yaml
-                '''
+                sh 'kubectl apply -f service.yaml'
+                
 
             }
 
