@@ -91,7 +91,10 @@ pipeline{
         stage ('Kuberenetes deployment'){
             steps {
 
-                sh  'kubectl apply -f deployment.yaml'
+                sh  '''
+                    export KUBECONFIG=~/.kube/config
+                    kubectl apply -f deployment.yaml
+                '''
             
             }
 
@@ -99,7 +102,10 @@ pipeline{
 
         stage ('Kubernetes service'){
             steps {
-                sh 'kubectl apply -f service.yaml'
+                sh '''
+                    export KUBECONFIG=~/.kube/config
+                    kubectl apply -f service.yaml
+                '''
                 
 
             }
