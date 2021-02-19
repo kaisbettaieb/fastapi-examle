@@ -117,7 +117,7 @@ pipeline{
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git_password', usernameVariable: 'git_username')]) {
                         sh  """
                         git init
-                        echo $git_username
+                        echo $git_email
                         echo $git_name
                         git config --global user.email $git_username
                         git config --global user.name $git_name
