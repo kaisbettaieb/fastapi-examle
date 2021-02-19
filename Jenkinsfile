@@ -4,7 +4,7 @@ pipeline{
         registryCredential = 'dockerhub-credentials'
         scannerHome = tool 'SonarQube scanner'
         sonarToken = credentials('credentials-sonar')
-        build_version = "1.+${BUILD_NUMBER}"
+        build_version = "1.${BUILD_NUMBER}"
     }
     agent any
 
@@ -116,7 +116,7 @@ pipeline{
             steps {
                     git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
                     sh  """
-                    echo  $build_version > .version
+                    echo $build_version > .version
                     git add .version
                     git commit -m "update build version"
                     git push
