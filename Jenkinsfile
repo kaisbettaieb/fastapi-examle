@@ -88,6 +88,30 @@ pipeline{
             }
         }
 
+        stage('Docker build image ') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$build_version"
+                }
+            }
+        }
+
+        stage('Docker push') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                           dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Cleaning local image') {
+            steps {
+                sh "docker rmi $registry:$build_version"
+            }
+        }
+
         stage ('Update prod branch') {
             steps {
                     git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
