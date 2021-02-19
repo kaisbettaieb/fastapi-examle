@@ -5,6 +5,7 @@ pipeline{
         dockerImage = ''
         scannerHome = tool 'SonarQube scanner'
         sonarToken = credentials('credentials-sonar')
+        build_version = "1+${BUILD_NUMBER}"
     }
     agent any
 
@@ -12,7 +13,6 @@ pipeline{
         stage('Clone github repo'){
             steps {
                 git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'main'
-
             }
         }
 
@@ -80,7 +80,7 @@ pipeline{
             }
         }
 
-         stage ('Publish build info') {
+        stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
@@ -88,53 +88,17 @@ pipeline{
             }
         }
 
-        stage ('Kuberenetes deployment'){
+        stage ('Commit in prod branch') {
             steps {
 
-                sh  '''
-                    export KUBECONFIG=C:/Users/kaisb/.kube/config
-                    kubectl apply -f deployment.yaml
-                '''
-            
-            }
-
-        }
-
-        stage ('Kubernetes service'){
-            steps {
                 sh '''
-                    export KUBECONFIG=C:/Users/kaisb/.kube/config
-                    kubectl apply -f service.yaml
+                    echo "commit prod branch"
                 '''
-                
-
             }
 
         }
 
-        /*stage('Docker build image ') {
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
-            }
-        }
-
-        stage('Docker push') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                           dockerImage.push()
-                    }
-                }
-            }
-        }
-
-        stage('Cleaning local image') {
-            steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }*/
+        
         
     }
 }
