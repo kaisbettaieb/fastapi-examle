@@ -93,7 +93,7 @@ pipeline{
                     git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
                     sh  """
                     echo  ${build_version} > .version
-                    git add.
+                    git add .version
                     git commit -m "update build version"
                     git push
                      """
