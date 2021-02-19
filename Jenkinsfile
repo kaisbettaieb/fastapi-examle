@@ -103,7 +103,7 @@ pipeline{
         stage ('Kubernetes service'){
             steps {
                 sh '''
-                    export KUBECONFIG=~/.kube/config
+                    export KUBECONFIG=C:/Users/kaisb/.kube/config
                     kubectl apply -f service.yaml
                 '''
                 
