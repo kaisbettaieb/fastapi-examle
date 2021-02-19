@@ -11,7 +11,7 @@ pipeline{
     stages {
         stage('Clone github repo'){
             steps {
-                git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'main'
+                git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'build'
 
             }
         }
@@ -116,7 +116,7 @@ pipeline{
             steps {
                     git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
                     sh  """
-                    echo  ${build_version} > .version
+                    echo  $build_version > .version
                     git add .version
                     git commit -m "update build version"
                     git push
