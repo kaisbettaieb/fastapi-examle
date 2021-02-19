@@ -2,9 +2,9 @@ pipeline{
     environment {
         registry = 'kaisbettaieb/fastapi-example'
         registryCredential = 'dockerhub-credentials'
-        dockerImage = ''
         scannerHome = tool 'SonarQube scanner'
         sonarToken = credentials('credentials-sonar')
+        build_version = "1.+${BUILD_NUMBER}"
     }
     agent any
 
@@ -88,54 +88,19 @@ pipeline{
             }
         }
 
-        stage ('Kuberenetes deployment'){
+        stage ('Update prod branch') {
             steps {
+                    git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
+                    sh  """
+                    echo  ${build_version} > .version
+                    git add.
+                    git commit -m "update build version"
+                    git push
+                     """
 
-                sh  '''
-                    export KUBECONFIG=C:/Users/kaisb/.kube/config
-                    kubectl apply -f deployment.yaml
-                '''
-            
-            }
-
-        }
-
-        stage ('Kubernetes service'){
-            steps {
-                sh '''
-                    export KUBECONFIG=C:/Users/kaisb/.kube/config
-                    kubectl apply -f service.yaml
-                '''
-                
-
-            }
-
-        }
-
-        /*stage('Docker build image ') {
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
-            }
-        }
 
-        stage('Docker push') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                           dockerImage.push()
-                    }
-                }
             }
-        }
-
-        stage('Cleaning local image') {
-            steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }*/
-        
     }
 }
 
