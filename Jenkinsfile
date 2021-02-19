@@ -117,7 +117,7 @@ pipeline{
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git_password', usernameVariable: 'git_username')]) {
                         sh  """
                         git config --global user.email $git_username
-                        git config --global user.name $git_desktop
+                        git config --global user.name $git_name
                         git checkout prod
                         echo $build_version > .version
                         git add .version
