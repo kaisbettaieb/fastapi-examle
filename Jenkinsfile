@@ -116,6 +116,7 @@ pipeline{
             steps {
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git_password', usernameVariable: 'git_username')]) {
                         sh  """
+                        git init
                         git config --global user.email $git_username
                         git config --global user.name $git_name
                         git checkout prod
