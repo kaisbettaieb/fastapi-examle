@@ -114,8 +114,10 @@ pipeline{
 
         stage ('Update prod branch') {
             steps {
-                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git-password', usernameVariable: 'git-username')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git_password', usernameVariable: 'git_username')]) {
                         sh  """
+                        git config --global user.email $git_username
+                        git config --global user.name $git_desktop
                         git checkout prod
                         echo $build_version > .version
                         git add .version
