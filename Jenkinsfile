@@ -114,17 +114,22 @@ pipeline{
 
         stage ('Update prod branch') {
             steps {
-                    git credentialsId: 'github-credentials', url: 'https://github.com/kaisbettaieb/fastapi-examle', branch: 'prod'
-                    sh  """
-                    echo $build_version > .version
-                    git add .version
-                    git commit -m "update build version"
-                    git push
-                     """
-
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'git-password', usernameVariable: 'git-username')]) {
+                        sh  """
+                        git checkout prod
+                        echo $build_version > .version
+                        git add .version
+                        git commit -m "update build version"
+                        git push
+                        """
+                    }
+                   
+                    
                 }
 
             }
+
+            
     }
 }
 
